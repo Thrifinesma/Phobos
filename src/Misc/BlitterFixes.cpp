@@ -29,12 +29,32 @@ inline ushort Blit25TranslucencyFix(ushort dst, ushort src)
 }
 
 
-DEFINE_HOOK(492866, BlitTransLucent50_Fix, 12)
+DEFINE_HOOK(492866, BlitTransLucent50_Fix, 0)
 {
-	GET(ushort, srcv, EAX);
+	GET(ushort, color, EAX);
 	GET(ushort*, dest, EDI);
 
-	*dest = Blit50TranslucencyFix(*dest, srcv);
+	*dest = Blit50TranslucencyFix(*dest, color);
 
 	return 0x492878;
+}
+
+DEFINE_HOOK(492956, BlitTransLucent25_Fix, 0)
+{
+	GET(ushort, color, EAX);
+	GET(ushort*, dest, ESI);
+
+	*dest = Blit25TranslucencyFix(*dest, color);
+
+	return 0x49296D;
+}
+
+DEFINE_HOOK(492776, BlitTransLucent75_Fix, 0)
+{
+	GET(ushort, color, EBP);
+	GET(ushort*, dest, ESI);
+
+	*dest = Blit75TranslucencyFix(*dest, color);
+
+	return 0x49278D;
 }
