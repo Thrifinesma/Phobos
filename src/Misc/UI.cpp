@@ -1,4 +1,5 @@
 ﻿#include "../Phobos.h"
+#include "../ExtraHeaders/PreviewClass.h"
 
 DEFINE_HOOK(777C41, UI_ApplyAppIcon, 9)
 {
@@ -25,3 +26,13 @@ DEFINE_HOOK(640B8D, LoadingScreen_DisableEmptySpawnPositions, 6)
 //{
 //	return 0x641071;
 //}
+
+DEFINE_HOOK(553686, LoadProgressMgr_Draw_SkipPreview, 6)
+{
+	GET(PreviewClass*, preview, ECX);
+
+	if (preview->ImageSurface->Width > 0 && preview->ImageSurface->Width > 0)
+		return 0;
+
+	return 0x55368C;
+}
