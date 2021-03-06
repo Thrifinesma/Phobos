@@ -21,6 +21,8 @@
     <ClCompile Include="src\Ext\TechnoType\Hook.cpp" />
     <ClCompile Include="src\Ext\WeaponType\Body.cpp" />
     <ClCompile Include="src\Ext\WeaponType\Hooks.DiskLaserRadius.cpp" />
+    <ClCompile Include="src\Misc\ExtTheater\TheaterExt.cpp" />
+    <ClCompile Include="src\Misc\ExtTheater\TheaterProto.cpp" />
     <ClCompile Include="src\Misc\Savegame.cpp" />
     <ClCompile Include="src\Misc\ExtendedToolTips.cpp" />
     <ClCompile Include="src\Misc\Selection.cpp" />
@@ -49,6 +51,8 @@
     <ClInclude Include="src\Ext\TechnoType\Body.h" />
     <ClInclude Include="src\Ext\WeaponType\Body.h" />
     <ClInclude Include="src\Misc\ExtendedToolTips.h" />
+    <ClInclude Include="src\Misc\ExtTheater\TheaterExt.h" />
+    <ClInclude Include="src\Misc\ExtTheater\TheaterProto.h" />
     <ClInclude Include="src\Misc\Stream.h" />
     <ClInclude Include="src\Phobos.version.h" />
     <ClInclude Include="src\Utilities\Concepts.h" />
