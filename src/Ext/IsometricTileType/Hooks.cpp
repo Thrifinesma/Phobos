@@ -2,22 +2,17 @@
 
 DEFINE_HOOK(547CF0, IsometricTileTypeClass_DrawTMP_SetPalette, 7)
 {
-	GET(IsometricTileTypeClass*, IsometricTileType, ECX);
+	GET(IsometricTileTypeClass*, pThis, ECX);
+	LEA_STACK(LightConvertClass**, ppLightConvert, 0x4);
 
-	auto pData = IsometricTileTypeExt::ExtMap.Find(IsometricTileType);
+	auto pData = IsometricTileTypeExt::ExtMap.Find(pThis);
 
-	// nooo
-	/*
 	if (pData->Palette) {
-		if (!pData->Convert)
-			pData->SetConvert();
+		if (!pData->LightConvert)
+			pData->SetLightConvert();
 
-		if (pData->Convert) {
-			R->ESI<ConvertClass*>(pData->Convert);
-			return 0x547CFFu;
-		}
+		*ppLightConvert = pData->LightConvert;
 	}
-	*/
 
 	return 0;
 }

@@ -3,27 +3,21 @@
 template<> const DWORD Extension<IsometricTileTypeClass>::Canary = 0x23434657;
 IsometricTileTypeExt::ExtContainer IsometricTileTypeExt::ExtMap;
 
-void IsometricTileTypeExt::ExtData::SetConvert()
-{
-	if (this->Palette) {
-		this->Convert = GameCreate<ConvertClass>(this->Palette, FileSystem::TEMPERAT_PAL, DSurface::Primary, 53, false);
-	}
-}
+int CurrentTileSetNumber = -1;
 
 // =============================
 // load / save
 
 void IsometricTileTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI) {
-	CCINIClass* pART = CCINIClass::INI_Art;
+	this->TileSetNumber = CurrentTileSetNumber;
 
-	auto pThis = this->OwnerObject();
-	const char* pSection = pThis->ID;
+	const char* pSection = this->GetSectionName();
 
-	if (!pART->GetSection(pSection)) {
+	if (!pINI->GetSection(pSection)) {
 		return;
 	}
 
-	pART->ReadString(pSection, "CustomPalette", this->PaletteBuffer, this->PaletteBuffer);
+	pINI->ReadString(pSection, "CustomPalette", this->PaletteBuffer, this->PaletteBuffer);
 
 	if (this->PaletteBuffer[0]) {
 		this->Palette = FileSystem::AllocatePalette(PaletteBuffer);
@@ -46,6 +40,29 @@ void IsometricTileTypeExt::ExtData::SaveToStream(IStream* Stm)
 	#define STM_Process(A) Stm->Write(&A, sizeof(A), 0);
 	#include "Serialize.hpp"
 	#undef STM_Process
+}
+
+void IsometricTileTypeExt::ExtData::SetLightConvert()
+{
+	if (this->Palette) {
+		this->LightConvert = GameCreate<LightConvertClass>(
+			this->Palette, FileSystem::TEMPERAT_PAL, DSurface::Primary,
+			1000, 1000, 1000, LightConvertClass::Array->Count != 0, 0, 53);
+
+		this->LightConvert->UpdateColors(
+			this->Palette->Entries[1].R, this->Palette->Entries[1].G,
+			this->Palette->Entries[1].B, true);
+
+		LightConvertClass::Array->AddItem(this->LightConvert);
+		//SwizzleManagerClass::Instance.Here_I_Am(this->LightConvert);
+	}
+}
+
+const char* IsometricTileTypeExt::ExtData::GetSectionName()
+{
+	char* result;
+	sprintf(result, "TileSet%04d", this->TileSetNumber);
+	return result;
 }
 
 // =============================
@@ -104,10 +121,15 @@ DEFINE_HOOK(549D5D, IsometricTileTypeClass_Load_Suffix, 5)
 	return 0;
 }
 
+DEFINE_HOOK(545FA3, IsometricTileTypeClass_LoadFromINI_SetTileSetNumber, 8)
+{
+	CurrentTileSetNumber = R->EDI<int>();
+}
+
 DEFINE_HOOK(54642E, IsometricTileTypeClass_LoadFromINI, 6)
 {
 	GET(IsometricTileTypeClass*, pItem, EBP);
-	LEA_STACK(CCINIClass*, pINI, 0x38);
+	LEA_STACK(CCINIClass*, pINI, 0xA10 - 0x9D8);
 
 	IsometricTileTypeExt::ExtMap.LoadFromINI(pItem, pINI);
 	return 0;

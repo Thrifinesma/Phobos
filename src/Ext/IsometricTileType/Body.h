@@ -1,6 +1,7 @@
 #pragma once
 
 #include <IsometricTileTypeClass.h>
+#include <SwizzleManagerClass.h>
 
 #include "../_Container.hpp"
 #include "../../Phobos.h"
@@ -13,17 +14,17 @@ public:
 	class ExtData final : public Extension<IsometricTileTypeClass>
 	{
 	public:
+		int TileSetNumber;
 		char PaletteBuffer[32];
 		BytePalette* Palette;
-		ConvertClass* Convert;
+		LightConvertClass* LightConvert;
 
 		ExtData(IsometricTileTypeClass* OwnerObject) : Extension<IsometricTileTypeClass>(OwnerObject),
+			TileSetNumber(-1),
 			PaletteBuffer(""),
 			Palette(nullptr),
-			Convert(nullptr)
+			LightConvert(nullptr)
 		{ }
-
-		void SetConvert();
 
 		virtual void LoadFromINIFile(CCINIClass* pINI) override;
 		virtual ~ExtData() = default;
@@ -32,6 +33,9 @@ public:
 
 		virtual void LoadFromStream(IStream* Stm);
 		virtual void SaveToStream(IStream* Stm);
+
+		void SetLightConvert();
+		const char* GetSectionName();
 	};
 
 	class ExtContainer final : public Container<IsometricTileTypeExt> {
