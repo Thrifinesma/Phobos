@@ -1,4 +1,5 @@
 #include "Body.h"
+#define _CRT_SECURE_NO_WARNINGS
 
 template<> const DWORD Extension<IsometricTileTypeClass>::Canary = 0x23434657;
 IsometricTileTypeExt::ExtContainer IsometricTileTypeExt::ExtMap;
@@ -49,10 +50,6 @@ void IsometricTileTypeExt::ExtData::SetLightConvert()
 			this->Palette, FileSystem::TEMPERAT_PAL, DSurface::Primary,
 			1000, 1000, 1000, LightConvertClass::Array->Count != 0, 0, 53);
 
-		this->LightConvert->UpdateColors(
-			this->Palette->Entries[1].R, this->Palette->Entries[1].G,
-			this->Palette->Entries[1].B, true);
-
 		LightConvertClass::Array->AddItem(this->LightConvert);
 		//SwizzleManagerClass::Instance.Here_I_Am(this->LightConvert);
 	}
@@ -60,7 +57,7 @@ void IsometricTileTypeExt::ExtData::SetLightConvert()
 
 const char* IsometricTileTypeExt::ExtData::GetSectionName()
 {
-	char* result;
+	char result[64];
 	sprintf(result, "TileSet%04d", this->TileSetNumber);
 	return result;
 }
@@ -124,6 +121,8 @@ DEFINE_HOOK(549D5D, IsometricTileTypeClass_Load_Suffix, 5)
 DEFINE_HOOK(545FA3, IsometricTileTypeClass_LoadFromINI_SetTileSetNumber, 8)
 {
 	CurrentTileSetNumber = R->EDI<int>();
+
+	return 0;
 }
 
 DEFINE_HOOK(54642E, IsometricTileTypeClass_LoadFromINI, 6)
