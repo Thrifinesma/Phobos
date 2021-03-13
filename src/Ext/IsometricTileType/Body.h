@@ -2,6 +2,7 @@
 
 #include <IsometricTileTypeClass.h>
 #include <SwizzleManagerClass.h>
+#include <CellClass.h>
 
 #include "../_Container.hpp"
 #include "../../Phobos.h"
@@ -34,7 +35,6 @@ public:
 		virtual void LoadFromStream(IStream* Stm);
 		virtual void SaveToStream(IStream* Stm);
 
-		void SetLightConvert();
 		const char* GetSectionName();
 	};
 

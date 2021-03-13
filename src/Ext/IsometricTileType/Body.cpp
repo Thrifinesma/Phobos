@@ -43,18 +43,6 @@ void IsometricTileTypeExt::ExtData::SaveToStream(IStream* Stm)
 	#undef STM_Process
 }
 
-void IsometricTileTypeExt::ExtData::SetLightConvert()
-{
-	if (this->Palette) {
-		this->LightConvert = GameCreate<LightConvertClass>(
-			this->Palette, FileSystem::TEMPERAT_PAL, DSurface::Primary,
-			1000, 1000, 1000, LightConvertClass::Array->Count != 0, 0, 53);
-
-		LightConvertClass::Array->AddItem(this->LightConvert);
-		//SwizzleManagerClass::Instance.Here_I_Am(this->LightConvert);
-	}
-}
-
 const char* IsometricTileTypeExt::ExtData::GetSectionName()
 {
 	char result[64];

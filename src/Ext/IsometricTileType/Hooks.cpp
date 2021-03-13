@@ -1,26 +1,39 @@
 #include "Body.h"
 
-DEFINE_HOOK(547CF0, IsometricTileTypeClass_DrawTMP_SetPalette, 7)
+CellClass* currentCell = nullptr;
+
+inline void ReplacePalette(BytePalette** ppDest)
 {
-	GET(IsometricTileTypeClass*, pThis, ECX);
-	LEA_STACK(LightConvertClass**, ppLightConvert, 0x4);
+	if (currentCell) {
+		auto pData = IsometricTileTypeExt::ExtMap.Find(currentCell->GetIsoTileType());
 
-	auto pData = IsometricTileTypeExt::ExtMap.Find(pThis);
-	auto pOld = *ppLightConvert;
-
-	if (pData->Palette) {
-		if (!pData->LightConvert)
-			pData->SetLightConvert();
-
-		pData->LightConvert->UpdateColors(
-			pOld->Color1.Red, pOld->Color1.Green, pOld->Color1.Blue, true);
-
-		long id;
-		SwizzleManagerClass::Instance.Fetch_Swizzle_ID(pOld, &id);
-		SwizzleManagerClass::Instance.Here_I_Am(id, pData->LightConvert);
-
-		*ppLightConvert = pData->LightConvert;
+		if (pData->Palette)
+			*ppDest = pData->Palette;
 	}
+}
 
+DEFINE_HOOK_AGAIN(484050, CellClass_DoCellLighting_Context_Set, 5)
+DEFINE_HOOK(483E30, CellClass_SetupLightingValues_Context_Set, 8)
+{
+	currentCell = R->ECX<CellClass*>();
+
+	return 0;
+}
+
+DEFINE_HOOK_AGAIN(484150, CellClass_DoCellLighting_Context_Unset, 5)
+DEFINE_HOOK(48403B, CellClass_SetupLightingValues_Context_Unset, 6)
+{
+	currentCell = nullptr;
+
+	return 0;
+}
+
+//DEFINE_HOOK_AGAIN(54508F, IsometricTileTypeClass_light_545000_CustomPalette, 5)
+DEFINE_HOOK(544F74, IsometricTileTypeClass_SetupLightConvert_CustomPalette, 5)
+{
+	LEA_STACK(BytePalette**, ppPalette, 0x0);
+
+	ReplacePalette(ppPalette);
+	
 	return 0;
 }
