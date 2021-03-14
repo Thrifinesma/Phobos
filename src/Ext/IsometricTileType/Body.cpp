@@ -1,26 +1,33 @@
 #include "Body.h"
 
+#include <ConvertClass.h>
+
 template<> const DWORD Extension<IsometricTileTypeClass>::Canary = 0x23434657;
 IsometricTileTypeExt::ExtContainer IsometricTileTypeExt::ExtMap;
 
-int CurrentTileSetNumber = -1;
+void IsometricTileTypeExt::GetSectionName(int tileSetNumber, char* buffer) {
+	sprintf(buffer, "TileSet%04d", tileSetNumber);
+	return;
+}
 
 // =============================
 // load / save
 
+int CurrentTileSetNumber = -1;
+
 void IsometricTileTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI) {
 	this->TileSetNumber = CurrentTileSetNumber;
 
-	const char* pSection = this->GetSectionName();
+	char pSection[16];
+	GetSectionName(CurrentTileSetNumber, pSection);
 
-	if (!pINI->GetSection(pSection)) {
-		return;
-	}
+	if (pINI->GetSection(pSection))
+	{
+		pINI->ReadString(pSection, "CustomPalette", this->PaletteBuffer, this->PaletteBuffer);
 
-	pINI->ReadString(pSection, "CustomPalette", this->PaletteBuffer, this->PaletteBuffer);
-
-	if (this->PaletteBuffer[0]) {
-		this->Palette = FileSystem::AllocatePalette(PaletteBuffer);
+		if (this->PaletteBuffer[0]) {
+			this->Palette = FileSystem::AllocatePalette(PaletteBuffer);
+		}
 	}
 }
 
@@ -40,13 +47,6 @@ void IsometricTileTypeExt::ExtData::SaveToStream(IStream* Stm)
 	#define STM_Process(A) Stm->Write(&A, sizeof(A), 0);
 	#include "Serialize.hpp"
 	#undef STM_Process
-}
-
-char result[64];
-const char* IsometricTileTypeExt::ExtData::GetSectionName()
-{
-	sprintf(result, "TileSet%04d", this->TileSetNumber);
-	return result;
 }
 
 // =============================
@@ -120,4 +120,3 @@ DEFINE_HOOK(54642E, IsometricTileTypeClass_LoadFromINI, 6)
 	IsometricTileTypeExt::ExtMap.LoadFromINI(pItem, pINI);
 	return 0;
 }
-

@@ -32,8 +32,6 @@ public:
 
 		virtual void LoadFromStream(IStream* Stm);
 		virtual void SaveToStream(IStream* Stm);
-
-		const char* GetSectionName();
 	};
 
 	class ExtContainer final : public Container<IsometricTileTypeExt> {
@@ -43,4 +41,6 @@ public:
 	};
 
 	static ExtContainer ExtMap;
+
+	static void GetSectionName(int idx, char* buffer);
 };
