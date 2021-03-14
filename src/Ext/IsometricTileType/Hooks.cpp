@@ -13,7 +13,7 @@ inline void ReplacePalette(BytePalette** ppDest)
 }
 
 DEFINE_HOOK_AGAIN(484050, CellClass_DoCellLighting_Context_Set, 5)
-DEFINE_HOOK(483E30, CellClass_SetupLightingValues_Context_Set, 8)
+DEFINE_HOOK(483E30, CellClass_SetupLightingValues_Context_Set, 7)
 {
 	currentCell = R->ECX<CellClass*>();
 
