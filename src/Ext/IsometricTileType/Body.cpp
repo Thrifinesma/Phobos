@@ -1,6 +1,4 @@
 #include "Body.h"
-/*
-#define _CRT_SECURE_NO_WARNINGS
 
 template<> const DWORD Extension<IsometricTileTypeClass>::Canary = 0x23434657;
 IsometricTileTypeExt::ExtContainer IsometricTileTypeExt::ExtMap;
@@ -44,9 +42,9 @@ void IsometricTileTypeExt::ExtData::SaveToStream(IStream* Stm)
 	#undef STM_Process
 }
 
+char result[64];
 const char* IsometricTileTypeExt::ExtData::GetSectionName()
 {
-	char result[64];
 	sprintf(result, "TileSet%04d", this->TileSetNumber);
 	return result;
 }
@@ -122,4 +120,4 @@ DEFINE_HOOK(54642E, IsometricTileTypeClass_LoadFromINI, 6)
 	IsometricTileTypeExt::ExtMap.LoadFromINI(pItem, pINI);
 	return 0;
 }
-*/
+

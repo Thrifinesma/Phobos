@@ -55,8 +55,12 @@ DEFINE_HOOK(546E81, Load_Tiles_Into_Memory, 6)
 		strcpy_s(fileName, pTile->FileName);
 		fileName[14] = 0;
 
-		Debug::Log("Load_Tiles_Into_Memory %s\n", fileName);
+		auto pTileExt = IsometricTileTypeExt::ExtMap.FindOrAllocate(pTile);
+
+		Debug::Log("Load_Tiles_Into_Memory\n");
+		Debug::Log("\t%s: %s\n", "FileName", fileName);
+		Debug::Log("\t%s: %d\n", "TileSetNumber", pTileExt->TileSetNumber);
+		Debug::Log("\n");
 	}
 	return 0;
 }
-
