@@ -1,11 +1,9 @@
 #pragma once
-
 #include <IsometricTileTypeClass.h>
-#include <SwizzleManagerClass.h>
-#include <CellClass.h>
 
+#include <Helpers/Macro.h>
 #include "../_Container.hpp"
-#include "../../Phobos.h"
+#include "../../Utilities/TemplateDef.h"
 
 class IsometricTileTypeExt
 {

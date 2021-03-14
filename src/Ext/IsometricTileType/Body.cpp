@@ -1,4 +1,5 @@
 #include "Body.h"
+/*
 #define _CRT_SECURE_NO_WARNINGS
 
 template<> const DWORD Extension<IsometricTileTypeClass>::Canary = 0x23434657;
@@ -121,3 +122,4 @@ DEFINE_HOOK(54642E, IsometricTileTypeClass_LoadFromINI, 6)
 	IsometricTileTypeExt::ExtMap.LoadFromINI(pItem, pINI);
 	return 0;
 }
+*/

@@ -1,5 +1,8 @@
 #include "Body.h"
 
+#include <CellClass.h>
+
+/*
 CellClass* currentCell = nullptr;
 
 inline void ReplacePalette(BytePalette** ppDest)
@@ -37,3 +40,23 @@ DEFINE_HOOK(544F74, IsometricTileTypeClass_SetupLightConvert_CustomPalette, 5)
 	
 	return 0;
 }
+*/
+
+DEFINE_HOOK(546E81, Load_Tiles_Into_Memory, 6)
+{
+	GET(CellClass*, pCell, EDI);
+	const int TileType = pCell->IsoTileTypeIndex;
+
+	if (TileType != 0xFFFF && IsometricTileTypeClass::Array->ValidIndex(TileType))
+	{
+		auto pTile = IsometricTileTypeClass::Array->GetItem(TileType);
+
+		char fileName[sizeof(pTile->FileName) + 1];
+		strcpy_s(fileName, pTile->FileName);
+		fileName[14] = 0;
+
+		Debug::Log("Load_Tiles_Into_Memory %s\n", fileName);
+	}
+	return 0;
+}
+
