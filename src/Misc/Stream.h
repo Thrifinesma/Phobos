@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <memory>
 #include <type_traits>
 #include <ObjIdl.h>
 #include <ArrayClasses.h>
@@ -16,7 +17,7 @@ public:
     template<typename T>
     static bool Process(IStream* Stm, T& value)
     {
-        return Process(Stm, value, sizeof T);
+        return Process(Stm, value, sizeof (T));
     }
 
     template<typename T>
@@ -52,12 +53,12 @@ public:
     static T* ProcessObject(IStream* Stm, bool bRegisterForChange = false)
     {
         T* ptrOld = nullptr;
-        if (Process(Stm, ptrOld, bRegisterForChange))
+        if (ProcessPointer(Stm, ptrOld, bRegisterForChange))
         {
             std::unique_ptr<T> ptrNew = std::make_unique<T>();
-            if (Process(Stm, *ptrNew, bRegisterForChange))
+            if (Process(Stm, *ptrNew))
             {
-                SwizzleManagerClass::Instance.Here_I_Am(ptrOld, ptrNew.get());
+                SwizzleManagerClass::Instance.Here_I_Am((long)ptrOld, ptrNew.get());
                 return ptrNew.release();
             }
         }
@@ -90,6 +91,7 @@ public:
             return false;
         if (pValue)
             return Process(Stm, *pValue);
+        return false;
     }
     
 };

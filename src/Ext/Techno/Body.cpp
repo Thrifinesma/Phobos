@@ -8,14 +8,12 @@ TechnoExt::ExtContainer TechnoExt::ExtMap;
 
 void TechnoExt::ExtData::LoadFromStream(IStream* Stm) {
 	this->InterceptedBullet.Load(Stm);
-	PhobosStreamReader::Process(Stm, this->ShieldData);
-	this->ShieldData.get()->Load(Stm);
+	this->ShieldData.reset(PhobosStreamReader::ProcessObject<ShieldTechnoClass>(Stm));
 }
 
 void TechnoExt::ExtData::SaveToStream(IStream* Stm) {
 	this->InterceptedBullet.Save(Stm);
-	PhobosStreamWriter::Process(Stm, this->ShieldData);
-	this->ShieldData.get()->Save(Stm);
+	PhobosStreamWriter::ProcessObject<ShieldTechnoClass>(Stm, this->ShieldData.get());
 }
 
 // =============================

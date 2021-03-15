@@ -205,6 +205,8 @@ void TechnoTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI) {
 	if (this->Shield_SelfHealing != -1)
 		this->Shield_SelfHealingDelay.Read(exINI, pSection, "Shield.SelfHealing.Delay");
 	this->Shield_AbsorbOverDamage.Read(exINI, pSection, "Shield.AbsorbOverDamage");
+	this->Shield_Image.Read(exINI, pSection, "Shield.Image.Normal");
+	this->Shield_BreakImage.Read(exINI, pSection, "Shield.Image.Breaking");
 
 	// Ares 0.A
 	this->GroupAs.Read(pINI, pSection, "GroupAs");
@@ -229,6 +231,14 @@ void TechnoTypeExt::ExtData::LoadFromStream(IStream* Stm) {
 	this->Powered_KillSpawns.Load(Stm);
 	this->Spawn_LimitedRange.Load(Stm);
 	this->Spawn_LimitedExtraRange.Load(Stm);
+	this->Shield_Strength.Load(Stm);
+	this->Shield_Respawn.Load(Stm);
+	this->Shield_RespawnDelay.Load(Stm);
+	this->Shield_SelfHealing.Load(Stm);
+	this->Shield_SelfHealingDelay.Load(Stm);
+	this->Shield_AbsorbOverDamage.Load(Stm);
+	this->Shield_Image.Load(Stm);
+	this->Shield_BreakImage.Load(Stm);
 }
 
 void TechnoTypeExt::ExtData::SaveToStream(IStream* Stm) const {
@@ -245,6 +255,14 @@ void TechnoTypeExt::ExtData::SaveToStream(IStream* Stm) const {
 	this->Powered_KillSpawns.Save(Stm);
 	this->Spawn_LimitedRange.Save(Stm);
 	this->Spawn_LimitedExtraRange.Save(Stm);
+	this->Shield_Strength.Save(Stm);
+	this->Shield_Respawn.Save(Stm);
+	this->Shield_RespawnDelay.Save(Stm);
+	this->Shield_SelfHealing.Save(Stm);
+	this->Shield_SelfHealingDelay.Save(Stm);
+	this->Shield_AbsorbOverDamage.Save(Stm);
+	this->Shield_Image.Save(Stm);
+	this->Shield_BreakImage.Save(Stm);
 }
 
 // =============================
