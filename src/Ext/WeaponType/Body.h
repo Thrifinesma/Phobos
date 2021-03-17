@@ -23,7 +23,7 @@ public:
 		ExtData(WeaponTypeClass* OwnerObject) : Extension<WeaponTypeClass>(OwnerObject),
 			DiskLaser_Radius(38.2),
 			DiskLaser_Circumference(240),
-			RadType()
+			RadType("Radiation")
 		{ }
 
 		virtual ~ExtData() = default;

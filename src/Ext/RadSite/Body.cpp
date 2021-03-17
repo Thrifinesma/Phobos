@@ -37,7 +37,7 @@ void RadSiteExt::RadSiteAdd(RadSiteClass* pRad, int lvmax, int amount) {
 }
 
 void RadSiteExt::SetRadLevel(RadSiteClass* pRad, RadType* Type, int amount) {
-	const int mult = Type->DurationMultiple;
+	const int mult = Type->GetDurationMultiple();
 	pRad->RadLevel = amount;
 	pRad->RadDuration = mult * amount;
 	pRad->RadTimeLeft = mult * amount;
