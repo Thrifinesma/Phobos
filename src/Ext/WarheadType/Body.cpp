@@ -6,6 +6,9 @@
 template<> const DWORD Extension<WarheadTypeClass>::Canary = 0x22222222;
 WarheadTypeExt::ExtContainer WarheadTypeExt::ExtMap;
 
+void WarheadTypeExt::ExtData::Initialize() {
+
+}
 // =============================
 // load / save
 
@@ -77,6 +80,10 @@ WarheadTypeExt::ExtContainer::ExtContainer() : Container("WarheadTypeClass") {
 }
 
 WarheadTypeExt::ExtContainer::~ExtContainer() = default;
+
+void WarheadTypeExt::ExtContainer::InvalidatePointer(void* ptr, bool bRemoved) {
+	
+}
 
 // =============================
 // container hooks
